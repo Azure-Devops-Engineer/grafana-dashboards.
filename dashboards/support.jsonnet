@@ -109,7 +109,7 @@ local prometheusMemory = graphPanel.new(
   datasource='$PROMETHEUS_DS'
 ).addTargets([
   prometheus.target(
-    'sum(container_memory_working_set_bytes{pod=~"support-prometheus-server-.*", namespace="support"})'
+    'sum(container_memory_working_set_bytes{pod=~"prometheus-monitoring-stack-.*", namespace="devops"})'
   ),
 ]);
 
@@ -119,7 +119,7 @@ local prometheusCPU = graphPanel.new(
   datasource='$PROMETHEUS_DS'
 ).addTargets([
   prometheus.target(
-    'sum(rate(container_cpu_usage_seconds_total{pod=~"support-prometheus-server-.*",namespace="support"}[5m]))'
+    'sum(rate(container_cpu_usage_seconds_total{pod=~"prometheus-monitoring-stack-.*",namespace="devops"}[5m]))'
   ),
 ]);
 
@@ -130,7 +130,7 @@ local prometheusDiskSpace = graphPanel.new(
   datasource='$PROMETHEUS_DS'
 ).addTargets([
   prometheus.target(
-    'sum(kubelet_volume_stats_available_bytes{namespace="support",persistentvolumeclaim="support-prometheus-server"})'
+    'sum(kubelet_volume_stats_available_bytes{namespace="devops",persistentvolumeclaim="prometheus-monitoring-stack"})'
   ),
 ]);
 
@@ -142,11 +142,11 @@ local prometheusNetwork = graphPanel.new(
   datasource='$PROMETHEUS_DS'
 ).addTargets([
   prometheus.target(
-    'sum(rate(container_network_receive_bytes_total{pod=~"support-prometheus-server-.*",namespace="support"}[5m]))',
+    'sum(rate(container_network_receive_bytes_total{pod=~"prometheus-monitoring-stack-.*",namespace="devops"}[5m]))',
     legendFormat='receive'
   ),
   prometheus.target(
-    'sum(rate(container_network_send_bytes_total{pod=~"support-prometheus-server-.*",namespace="support"}[5m]))',
+    'sum(rate(container_network_send_bytes_total{pod=~"prometheus-monitoring-stack-.*",namespace="devops"}[5m]))',
     legendFormat='send'
   ),
 ]);

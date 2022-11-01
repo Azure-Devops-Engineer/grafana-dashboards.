@@ -20,6 +20,7 @@ def grafana_request(endpoint, token, path, data=None):
         'Content-Type': 'application/json'
     }
     method = 'GET' if data is None else 'POST'
+    print("Calling to grafana: ", endpoint, path, data)
     req = Request(f'{endpoint}/api{path}', headers=headers, method=method)
     if not isinstance(data, bytes):
         data = json.dumps(data).encode()
@@ -147,8 +148,8 @@ def populate_template_variables(api, db):
                 var["current"] = {
                     "selected": True,
                     "tags": [],
-                    "text": datasources[0]["name"],
-                    "value": datasources[0]["name"],
+                    "text": datasources[1]["name"],
+                    "value": datasources[1]["name"],
                 }
                 var["options"][0]["selected"] = True
         elif var['type'] == 'query':
@@ -156,7 +157,7 @@ def populate_template_variables(api, db):
 
             # This requires our token to have admin permissions
             # Default to the first datasource
-            prom_id = datasources[0]["id"]
+            prom_id = datasources[1]["id"]
 
             labels = get_label_values(api, prom_id, template_query)
             var["options"] = [{"text": l, "value": l} for l in labels]
